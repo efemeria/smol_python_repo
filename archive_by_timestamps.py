@@ -24,7 +24,7 @@ def backup(endpoint_available: bool, data, backup_dir: str):
             write_to_backup(data, backup_dir)
             # if needed here you can throttle by adding a 'sleep' statement
             # get new data
-            endpoint_available = send_data(data, client)
+            endpoint_available = send_data(data)
 
     if endpoint_available and backup_start_time != 0:
         backup_end_time = datetime.datetime.now()
@@ -44,7 +44,7 @@ def write_to_backup(data, backup_dir: str):
         zipfile.write('\n'.join(data))
 
 
-def push_from_backup(backup_dir: str, backup_start_time: datetime, backup_end_time: datetime, client):
+def push_from_backup(backup_dir: str, backup_start_time: datetime, backup_end_time: datetime):
     log_files = [f for f in os.listdir(backup_dir) if f.endswith('.tsm.gz')]
 
     backup_start_time = backup_start_time.replace(microsecond=0)
@@ -57,7 +57,8 @@ def push_from_backup(backup_dir: str, backup_start_time: datetime, backup_end_ti
         if backup_start_time <= datetime.datetime.strptime(timestamp, '%Y-%m-%d_%H-%M-%S') <= backup_end_time:
             with gzip.open(os.path.join(backup_dir, file), 'rb') as f:
                 backup_content = f.read().decode('utf-8').split('\n')
-            send_data(backup_content, client)
+            send_data(backup_content)
+
 
 # Here goes your main function
 def main():
