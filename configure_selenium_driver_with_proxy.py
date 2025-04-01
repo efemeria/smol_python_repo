@@ -1,5 +1,6 @@
 # Function for configuring a working selenium driver with optimized options which I found to work best with mimicking real user behaviour
-# Options, fingerprint and other parameters are up-to-date and still working as of 01/04/2025 
+# Options, fingerprint and other parameters are up-to-date and still working as of 01/04/2025
+# To be used with a proxy connection (passed as a hostname)
 
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
